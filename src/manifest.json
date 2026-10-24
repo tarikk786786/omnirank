@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "OmniRank - Amazon, Flipkart & Google Commerce Suite",
+  "short_name": "OmniRank",
+  "version": "2.2.0",
+  "description": "Production e-commerce SEO & audit suite for Amazon, Flipkart & Google. Real-data catalog intelligence, fees, GSC & Ads research. Made by tarikislam.in.",
+  "author": "tarikislam.in",
+  "homepage_url": "https://tarikislam.in",
+
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "sidePanel",
+    "tabs",
+    "clipboardWrite"
+  ],
+
+  "host_permissions": [
+    "https://*.amazon.in/*",
+    "https://*.amazon.com/*",
+    "https://*.amazon.co.uk/*",
+    "https://*.amazon.ca/*",
+    "https://*.amazon.de/*",
+    "https://*.flipkart.com/*",
+    "https://api.flipkart.net/*",
+    "https://completion.amazon.in/*",
+    "https://completion.amazon.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://searchconsole.googleapis.com/*",
+    "https://googleads.googleapis.com/*",
+    "https://shoppingcontent.googleapis.com/*",
+    "http://localhost:*/*",
+    "http://127.0.0.1:*/*"
+  ],
+
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "OmniRank - Amazon • Flipkart • Google"
+  },
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.amazon.com/*",
+        "https://*.amazon.co.uk/*",
+        "https://*.amazon.ca/*",
+        "https://*.amazon.de/*",
+        "https://*.amazon.fr/*",
+        "https://*.amazon.it/*",
+        "https://*.amazon.es/*",
+        "https://*.amazon.in/*",
+        "https://*.amazon.co.jp/*",
+        "https://*.amazon.com.au/*",
+        "https://*.amazon.ae/*",
+        "https://*.amazon.sa/*",
+        "https://*.amazon.com.br/*",
+        "https://*.amazon.com.mx/*",
+        "https://*.flipkart.com/*"
+      ],
+      "js": ["scripts/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["styles/popup.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

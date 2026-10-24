@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniRank — Amazon, Flipkart &amp; Google Commerce Suite</title>
+  <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <div class="header">
+    <div class="header-logo">⚡</div>
+    <div class="header-title">
+      <h1>OmniRank</h1>
+      <span>Amazon • Flipkart • Google Commerce Suite</span>
+    </div>
+    <div style="display:flex; gap:6px; align-items:center;">
+      <button id="openSidePanelBtn" class="asin-copy" style="font-size:10px; padding:3px 7px; background:rgba(20,110,180,0.3); border-color:#146EB4;" title="Open in Chrome Side Panel">📌 Side Panel</button>
+      <div class="header-badge" id="versionBadge">v2.2 PRO</div>
+    </div>
+  </div>
+
+  <!-- ── Hardcore Security Status Bar ────────────────────────────────────────── -->
+  <div class="hardcore-signature-bar">
+    <div class="sig-badge">
+      🛡️ SUPER SECURITY • <span class="sig-link">ENGINEERED BY TARIKISLAM.IN</span>
+    </div>
+    <div class="sig-status">
+      <span class="sig-dot"></span> ZERO CLIENT SECRETS ACTIVE
+    </div>
+  </div>
+
+  <!-- ── Loading State ──────────────────────────────────────────────────── -->
+  <div id="loadingState" class="state-screen">
+    <div class="spinner"></div>
+    <h2>Auditing live marketplace page…</h2>
+    <p>Extracting SEO data, FBA/seller fees, pricing, reviews, and demand signals from the live page.</p>
+  </div>
+
+  <!-- ── Not Supported State ───────────────────────────────────────────────── -->
+  <div id="notAmazonState" class="state-screen" style="display:none">
+    <div class="icon">📦</div>
+    <h2>E-Commerce Platform Page Required</h2>
+    <p id="notAmazonUrlText">Navigate to any Amazon or Flipkart product or search page (e.g. amazon.in, flipkart.com) to perform a live SEO and catalog audit.</p>
+    <div style="display:flex; flex-direction:column; gap:8px; width:100%; max-width:320px; margin-top:16px;">
+      <button id="scanActiveSearchBtn" class="btn btn-secondary" style="padding:10px 14px; font-weight:700; width:100%; border-color:#00c0f0; color:#00c0f0;">
+        🔍 Scan Visible Search Results (SERP)
+      </button>
+      <button id="loadSampleDataBtn" class="btn btn-primary" style="padding:10px 14px; font-weight:700; width:100%;">
+        ⚡ Enter Standalone Research Workspace
+      </button>
+      <button id="openAmazonDemoBtn" class="btn btn-secondary" style="padding:8px 14px; width:100%;">
+        🌐 Open Amazon.in in New Tab
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Error State ────────────────────────────────────────────────────── -->
+  <div id="errorState" class="state-screen" style="display:none">
+    <div class="icon">⚠️</div>
+    <h2>Could Not Extract Data</h2>
+    <p id="errorMsg">Try refreshing the Amazon product page, then click the extension again.</p>
+  </div>
+
+  <!-- ── Main UI ────────────────────────────────────────────────────────── -->
+  <div id="mainUI" style="display:none">
+
+    <!-- Active Page Connection Status Banner -->
+    <div id="connectionBanner" style="margin: 8px 12px 0; padding: 6px 10px; border-radius: 6px; font-size: 11px; display: flex; align-items: center; justify-content: space-between; background: rgba(0, 192, 240, 0.1); border-left: 3px solid #00c0f0;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span id="connBannerIcon">⚡</span>
+        <span id="connBannerText" style="color:var(--text-primary); font-weight:500;">Standalone Mode — All calculators, SERP &amp; AI tools active</span>
+      </div>
+      <button id="connBannerActionBtn" class="asin-copy" style="font-size:10px; padding:2px 7px;">Scan Page</button>
+    </div>
+
+    <!-- ASIN Banner -->
+    <div style="padding: 10px 12px 0;">
+      <div class="asin-banner">
+        <div>
+          <div class="asin-label">ASIN</div>
+          <div class="asin-value" id="asinValue">—</div>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+          <span id="marketplaceBadge" class="badge badge-blue"></span>
+          <button class="asin-copy" id="copyAsinBtn">📋 Copy ASIN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+      <button class="tab-btn" data-tab="serp">🔍 Search SERP</button>
+      <button class="tab-btn" data-tab="profit">💰 FBA Profit</button>
+      <button class="tab-btn" data-tab="sales">📈 Sales &amp; Rev</button>
+      <button class="tab-btn" data-tab="builder">🚀 Listing Builder</button>
+      <button class="tab-btn" data-tab="compare">⚖️ Competitors</button>
+      <button class="tab-btn" data-tab="rankhistory">📌 Rank History</button>
+      <button class="tab-btn" data-tab="reviews">🗣️ Customer Voice</button>
+      <button class="tab-btn" data-tab="seo">🎯 SEO Score</button>
+      <button class="tab-btn" data-tab="keywords">🔑 Keywords</button>
+      <button class="tab-btn" data-tab="api-suggest">⚡ Live API</button>
+      <button class="tab-btn" data-tab="diagnostics">🛡️ APIs &amp; SP-API</button>
+      <button class="tab-btn" data-tab="product">📋 Specs</button>
+      <button class="tab-btn" data-tab="images">🖼 Images</button>
+      <button class="tab-btn" data-tab="export">📤 Export</button>
+      <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <!-- ── Tab: Overview ──────────────────────────────────────────────── -->
+    <div class="tab-content active" id="tab-overview">
+
+      <!-- Quick metrics -->
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-label">⭐ Rating</div>
+          <div class="metric-value orange" id="ratingValue">—</div>
+          <div class="metric-sub" id="reviewCountValue">— reviews</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">💰 Price</div>
+          <div class="metric-value green" id="priceValue">—</div>
+          <div class="metric-sub" id="discountValue"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">🏆 Best Seller Rank</div>
+          <div class="metric-value orange" id="bsrValue">—</div>
+          <div class="metric-sub" id="bsrCategory"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">📸 Images &amp; Media</div>
+          <div class="metric-value" id="imageCountValue">—</div>
+          <div class="metric-sub" id="mediaFeaturesBadge">A+ Content: Check</div>
+        </div>
+      </div>
+
+      <!-- SEO Score summary -->
+      <div class="score-section">
+        <div class="score-circle">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle class="score-circle-track" cx="40" cy="40" r="34"/>
+            <circle class="score-circle-fill" id="scoreCircle" cx="40" cy="40" r="34"
+              stroke-dasharray="213.6"
+              stroke-dashoffset="213.6"
+              stroke="#FF9900"/>
+          </svg>
+          <div class="score-circle-text">
+            <span class="score-number" id="scoreNumber">0</span>
+            <span class="score-grade" id="scoreGrade"></span>
+          </div>
+        </div>
+        <div class="score-info">
+          <h3>SEO Health &amp; Demand Score</h3>
+          <p id="scoreDesc">Analyzing your listing optimization…</p>
+          <div style="margin-top:8px;">
+            <span id="issueCount" class="badge badge-red" style="display:none"></span>
+            <span id="suggestionCount" class="badge badge-yellow" style="margin-left:4px;display:none"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listing Status -->
+      <div class="card">
+        <div class="card-title">📦 Listing &amp; Buy Box Status</div>
+        <div class="info-row">
+          <div class="info-label">Availability</div>
+          <div class="info-value" id="availValue">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Sold by</div>
+          <div class="info-value" id="soldByValue">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Fulfillment</div>
+          <div class="info-value" id="fulfillmentValue">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Prime Status</div>
+          <div class="info-value" id="primeValue">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">A+ Brand Content</div>
+          <div class="info-value" id="aplusStatusValue">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Video in Listing</div>
+          <div class="info-value" id="videoStatusValue">—</div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="card">
+        <div class="card-title">📂 Category Hierarchy</div>
+        <div id="categoriesValue" class="keyword-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Search SERP Analysis ─────────────────────────────────── -->
+    <div class="tab-content" id="tab-serp">
+      <div class="card">
+        <div class="card-title">🔍 Amazon Visible Search Results (SERP)</div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">
+          Analyze visible organic rankings, sponsored placements, and competitor pricing directly from the active Amazon search page.
+        </p>
+
+        <div class="serp-summary-bar" id="serpSummaryBar" style="display:none;">
+          <div class="summary-metric">
+            <span class="metric-val" id="serpQueryText">—</span>
+            <span class="metric-lbl">Keyword</span>
+          </div>
+          <div class="summary-metric">
+            <span class="metric-val" id="serpParsedCount">0</span>
+            <span class="metric-lbl">Visible Items</span>
+          </div>
+          <div class="summary-metric">
+            <span class="metric-val" id="serpSponsoredCount">0</span>
+            <span class="metric-lbl">Sponsored</span>
+          </div>
+          <div class="summary-metric">
+            <span class="metric-val" id="serpOrganicCount">0</span>
+            <span class="metric-lbl">Organic</span>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:10px;">
+          <button id="rescanSerpBtn" class="btn btn-primary" style="flex:1;">🔍 Scan Active Search Tab</button>
+          <button id="exportSerpCsvBtn" class="btn btn-secondary" style="flex:1;">📥 Export SERP (CSV)</button>
+        </div>
+      </div>
+
+      <div class="card" id="serpTableCard">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Visible Search Rankings</span>
+          <span id="serpTotalCount" style="font-size:11px; color:var(--text-muted); font-weight:normal;"></span>
+        </div>
+        <div class="serp-table-container">
+          <table class="serp-table">
+            <thead>
+              <tr>
+                <th style="width:36px;">#</th>
+                <th>Product</th>
+                <th style="width:72px;">Price</th>
+                <th style="width:58px;">Rating</th>
+                <th style="width:54px;">Reviews</th>
+                <th style="width:50px;">Type</th>
+              </tr>
+            </thead>
+            <tbody id="serpResultsBody">
+              <tr>
+                <td colspan="6" style="text-align:center; padding:18px; color:var(--text-muted);">
+                  Navigate to an Amazon search page (e.g. amazon.in/s?k=headphones) and click "Scan Active Search Tab".
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab: FBA & Profit Calculator ──────────────────────────────── -->
+    <div class="tab-content" id="tab-profit">
+
+      <!-- Country / Target Marketplace Options -->
+      <div class="card" style="margin-bottom:12px; background:linear-gradient(135deg, rgba(255, 153, 0, 0.08) 0%, rgba(20, 110, 180, 0.08) 100%); border-left:3px solid var(--amazon-orange);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
+              <span>🌍</span> Target Marketplace &amp; Country Options
+            </div>
+            <div style="font-size:11px; color:var(--text-muted);">
+              Calculates local currency, Amazon referral %, and country-specific FBA fees.
+            </div>
+          </div>
+          <select id="calcCountrySelect" class="calc-input" style="width:auto; min-width:210px; font-weight:600; cursor:pointer; background:var(--bg-secondary); color:#fff; border:1px solid var(--border);">
+            <option value="IN" selected>🇮🇳 India (INR ₹)</option>
+            <option value="US">🇺🇸 United States (USD $)</option>
+            <option value="UK">🇬🇧 United Kingdom (GBP £)</option>
+            <option value="CA">🇨🇦 Canada (CAD CA$)</option>
+            <option value="DE">🇩🇪 Germany (EUR €)</option>
+            <option value="FR">🇫🇷 France (EUR €)</option>
+            <option value="IT">🇮🇹 Italy (EUR €)</option>
+            <option value="ES">🇪🇸 Spain (EUR €)</option>
+            <option value="JP">🇯🇵 Japan (JPY ¥)</option>
+            <option value="AU">🇦🇺 Australia (AUD A$)</option>
+            <option value="AE">🇦🇪 United Arab Emirates (AED)</option>
+            <option value="SA">🇸🇦 Saudi Arabia (SAR)</option>
+            <option value="BR">🇧🇷 Brazil (BRL R$)</option>
+            <option value="MX">🇲🇽 Mexico (MXN Mex$)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="profit-summary-card">
+        <div class="profit-stat-row">
+          <span style="font-size:12px; color:var(--text-secondary);">Estimated Net Profit:</span>
+          <span class="profit-value-huge" id="calcNetProfit">$0.00</span>
+        </div>
+        <div class="profit-stat-row">
+          <span style="font-size:11px; color:var(--text-muted);">Net Profit Margin:</span>
+          <span style="font-size:14px; font-weight:700; color:#fff;" id="calcMargin">0%</span>
+        </div>
+        <div class="profit-stat-row">
+          <span style="font-size:11px; color:var(--text-muted);">Return on Investment (ROI):</span>
+          <span style="font-size:14px; font-weight:700; color:var(--accent-green);" id="calcRoi">0%</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🧮 Interactive Cost Inputs</div>
+        <div class="calc-grid">
+          <div class="calc-input-group">
+            <div class="calc-input-label" id="labelSalePrice">Sale Price ($)</div>
+            <input type="number" step="0.01" id="inputSalePrice" class="calc-input" value="29.99">
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label" id="labelCogs">Unit Cost / COGS ($)</div>
+            <input type="number" step="0.01" id="inputCogs" class="calc-input" value="7.50">
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label" id="labelShipping">Shipping to FBA ($)</div>
+            <input type="number" step="0.01" id="inputShipping" class="calc-input" value="1.50">
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label" id="labelReferralPct">Amazon Referral (%)</div>
+            <input type="number" step="0.5" id="inputReferralPct" class="calc-input" value="15">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📦 Amazon FBA Fee Breakdown</div>
+        <div class="info-row">
+          <div class="info-label">Amazon Referral Fee</div>
+          <div class="info-value" id="calcReferralFee">$0.00</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">FBA Pick &amp; Pack Fee</div>
+          <div class="info-value" id="calcFbaFee">$0.00</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Package Weight</div>
+          <div class="info-value" id="calcItemWeight">1.0 lb</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Dimensions</div>
+          <div class="info-value" id="calcDimensions">Standard</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Breakeven Sale Price</div>
+          <div class="info-value" id="calcBreakevenPrice" style="font-weight:700; color:var(--accent-yellow);">$0.00</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Total Amazon Fees</div>
+          <div class="info-value" id="calcTotalFees" style="font-weight:700; color:var(--accent-red);">$0.00</div>
+        </div>
+      </div>
+
+      <!-- Flipkart Seller Fee Calculator Card -->
+      <div class="card" style="margin-top:12px; border-left:3px solid #2874F0;">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>🛍️ Flipkart Seller Commission &amp; Fee Calculator</span>
+          <button id="btnCalculateFlipkartFees" class="icon-btn" style="font-size:10px; padding:2px 8px; background:rgba(40,116,240,0.2); border-color:#2874F0; color:#2874F0;">⚡ Recalculate</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">
+          Calculates official Flipkart category commission, fixed fee tiers, collection fee, shipping, and 18% GST.
+        </p>
+        <div class="calc-grid">
+          <div class="calc-input-group">
+            <div class="calc-input-label">Product Category</div>
+            <select id="calcFkCategory" class="calc-input">
+              <option value="Electronics" selected>Consumer Electronics (8.5%)</option>
+              <option value="Mobiles & Accessories">Mobiles &amp; Accessories (9.0%)</option>
+              <option value="Computers & IT">Computers &amp; IT (5.5%)</option>
+              <option value="Apparel & Fashion">Apparel &amp; Fashion (14.0%)</option>
+              <option value="Footwear">Footwear (12.5%)</option>
+              <option value="Home & Kitchen">Home &amp; Kitchen (11.0%)</option>
+              <option value="Beauty & Grooming">Beauty &amp; Grooming (8.0%)</option>
+              <option value="Books">Books (7.0%)</option>
+              <option value="Sports & Fitness">Sports &amp; Fitness (10.5%)</option>
+            </select>
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label">Selling Price (₹)</div>
+            <input type="number" step="1" id="calcFkSellingPrice" class="calc-input" value="1299">
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label">Weight (Grams)</div>
+            <input type="number" step="50" id="calcFkWeight" class="calc-input" value="450">
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label">Shipping Tier</div>
+            <select id="calcFkShippingTier" class="calc-input">
+              <option value="national" selected>National (Across India)</option>
+              <option value="zonal">Zonal (Nearby States)</option>
+              <option value="local">Local (Intra-city)</option>
+            </select>
+          </div>
+          <div class="calc-input-group">
+            <div class="calc-input-label">Payment Mode</div>
+            <select id="calcFkPaymentMode" class="calc-input">
+              <option value="prepaid" selected>Prepaid (2% Gateway)</option>
+              <option value="cod">Cash on Delivery (COD + ₹15)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:10px; padding:8px; background:rgba(40,116,240,0.06); border-radius:6px;">
+          <div class="info-row">
+            <div class="info-label">Flipkart Commission</div>
+            <div class="info-value" id="calcFkCommissionFee">₹110.42</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Fixed Closing Fee</div>
+            <div class="info-value" id="calcFkFixedFee">₹30.00</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Payment Collection Fee</div>
+            <div class="info-value" id="calcFkCollectionFee">₹25.98</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Shipping / Fulfillment</div>
+            <div class="info-value" id="calcFkShippingFee">₹69.00</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">GST on Marketplace Fees (18%)</div>
+            <div class="info-value" id="calcFkGst">₹42.37</div>
+          </div>
+          <div class="info-row" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:4px; padding-top:4px;">
+            <div class="info-label" style="font-weight:700; color:#fff;">Net Seller Payout (After Fees &amp; GST)</div>
+            <div class="info-value" id="calcFkNetPayout" style="font-weight:700; color:#00c853; font-size:14px;">₹1021.23</div>
+          </div>
+          <div class="info-row">
+            <div class="info-label" style="font-size:10px; color:var(--text-muted);">Total Deduction Ratio</div>
+            <div class="info-value" id="calcFkFeePct" style="font-size:10px; color:var(--accent-red);">21.38%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Sales & Revenue Estimator ────────────────────────────── -->
+    <div class="tab-content" id="tab-sales">
+
+      <div class="card" style="background: linear-gradient(135deg, rgba(255, 153, 0, 0.15) 0%, rgba(20, 110, 180, 0.15) 100%);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="card-title">📈 Estimated Sales Velocity (From BSR)</div>
+          <span id="salesCountryBadge" class="badge badge-blue">Target: 🇺🇸 US ($)</span>
+        </div>
+        <div class="metric-grid" style="margin-top:8px;">
+          <div class="metric-card">
+            <div class="metric-label">Estimated Monthly Units</div>
+            <div class="metric-value orange" id="estMonthlyUnits">—</div>
+            <div class="metric-sub" id="estDailyUnits">— / day</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Estimated Monthly Revenue</div>
+            <div class="metric-value green" id="estMonthlyRev">—</div>
+            <div class="metric-sub" id="estDailyRev">— / day</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 Category Competition &amp; Opportunity</div>
+        <div class="info-row">
+          <div class="info-label">Main Category BSR</div>
+          <div class="info-value orange" id="salesBsrRank">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Category Name</div>
+          <div class="info-value" id="salesBsrCat">—</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Demand Level</div>
+          <div class="info-value" id="salesDemandLevel"><span class="badge badge-green">High Demand</span></div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Competition Level</div>
+          <div class="info-value" id="salesCompetitionLevel"><span class="badge badge-yellow">Moderate Competition</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: New Listing Builder & High-Demand SEO ────────────────── -->
+    <div class="tab-content" id="tab-builder">
+
+      <div class="ai-header-card">
+        <div class="ai-header-title">
+          <span>🚀 New Product Listing Builder &amp; Full Description</span>
+        </div>
+        <p style="font-size:11px; color:var(--text-secondary); line-height:1.5; margin-bottom:8px;">
+          Create a Page-1 ready listing from scratch with High-Demand Title, 5 Bullets, full formatted HTML Description, and ≤249-byte search terms.
+        </p>
+
+        <div style="display:flex; gap:6px; margin-bottom:8px;">
+          <input type="text" id="builderBrandInput" class="search-input" placeholder="Your Brand Name (e.g., NovaCraft)" style="flex:1;">
+          <button id="populateFromCurrentBtn" class="search-btn" style="background:var(--bg-secondary); border:1px solid var(--border); color:#fff;" title="Copy details from current page">
+            📥 Use Page Data
+          </button>
+        </div>
+
+        <input type="text" id="builderConceptInput" class="search-input" placeholder="Product Concept / Key Features (e.g., Stainless Steel Tumbler with Straw 32oz)..." style="width:100%; margin-bottom:8px;">
+
+        <button id="generateFullListingBtn" class="btn btn-primary" style="width:100%;">
+          ✨ Generate High-Demand Listing &amp; HTML Description
+        </button>
+      </div>
+
+      <div id="builderResultsContainer" style="display:none;">
+
+        <!-- Title -->
+        <div class="ai-output-box">
+          <div class="ai-output-label">
+            <span>📝 High-Demand Title (<span id="builderTitleLen">0</span> / 200 chars)</span>
+            <button class="copy-mini-btn" id="copyBuilderTitleBtn">📋 Copy Title</button>
+          </div>
+          <div class="ai-output-text" id="builderTitleOutput"></div>
+        </div>
+
+        <!-- 5 Bullets -->
+        <div class="ai-output-box">
+          <div class="ai-output-label">
+            <span>🔹 5 High-Converting Bullet Points</span>
+            <button class="copy-mini-btn" id="copyBuilderBulletsBtn">📋 Copy Bullets</button>
+          </div>
+          <div id="builderBulletsOutput" style="display:flex; flex-direction:column; gap:6px; margin-top:4px;"></div>
+        </div>
+
+        <!-- Full HTML Description -->
+        <div class="ai-output-box">
+          <div class="ai-output-label">
+            <span>📖 Full HTML Product Description (Seller Central Ready)</span>
+            <div style="display:flex; gap:4px;">
+              <button class="copy-mini-btn" id="toggleHtmlModeBtn">👁 View Code</button>
+              <button class="copy-mini-btn" id="copyBuilderHtmlBtn">📋 Copy HTML</button>
+            </div>
+          </div>
+          <div class="html-preview-box" id="builderHtmlPreview"></div>
+          <pre class="html-code-box" id="builderHtmlCode" style="display:none;"></pre>
+        </div>
+
+        <!-- Backend Search Terms -->
+        <div class="ai-output-box">
+          <div class="ai-output-label">
+            <span>
+              🎯 Backend Search Terms
+              <span id="builderBytesBadge" class="byte-counter-badge safe">0 / 249 bytes</span>
+            </span>
+            <button class="copy-mini-btn" id="copyBuilderBackendBtn">📋 Copy</button>
+          </div>
+          <div class="ai-output-text" id="builderBackendOutput" style="font-family:var(--font-mono); font-size:11px;"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Competitor Comparison ─────────────────────────────────── -->
+    <div class="tab-content" id="tab-compare">
+      <div class="card">
+        <div class="card-title">⚖️ Competitor Head-to-Head Comparison</div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">
+          Benchmark active product against any competing ASIN. Analyze price differential, review counts, title keyword density, and estimated score.
+        </p>
+
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+          <input type="text" id="compAsinInput" class="form-input" placeholder="Enter Competitor ASIN (e.g. B08N5WRWNW)" style="flex:1;">
+          <button id="compareAsinBtn" class="btn btn-primary" style="white-space:nowrap;">Compare</button>
+        </div>
+
+        <div id="compareGridContainer">
+          <table class="serp-table" style="font-size:11px;">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th style="color:var(--amazon-orange);" id="compActiveColHeader">Active Product</th>
+                <th style="color:#00c0f0;" id="compTargetColHeader">Competitor</th>
+              </tr>
+            </thead>
+            <tbody id="compareTableBody">
+              <tr><td>ASIN</td><td id="compActiveAsin">—</td><td id="compTargetAsin">—</td></tr>
+              <tr><td>Title Length</td><td id="compActiveTitleLen">—</td><td id="compTargetTitleLen">—</td></tr>
+              <tr><td>Price</td><td id="compActivePrice">—</td><td id="compTargetPrice">—</td></tr>
+              <tr><td>Rating</td><td id="compActiveRating">—</td><td id="compTargetRating">—</td></tr>
+              <tr><td>Review Count</td><td id="compActiveReviews">—</td><td id="compTargetReviews">—</td></tr>
+              <tr><td>Bullet Count</td><td id="compActiveBullets">—</td><td id="compTargetBullets">—</td></tr>
+              <tr><td>SEO Score</td><td id="compActiveScore">—</td><td id="compTargetScore">—</td></tr>
+              <tr><td>Est. FBA Margin</td><td id="compActiveMargin">—</td><td id="compTargetMargin">—</td></tr>
+            </tbody>
+          </table>
+
+          <div id="compareTakeawayBox" class="card" style="margin-top:10px; background:var(--bg-secondary); border-left:3px solid var(--amazon-orange); display:none;">
+            <div style="font-weight:700; font-size:11px; margin-bottom:4px; color:var(--text-primary);">💡 Competitive Intelligence</div>
+            <div id="compareTakeawayText" style="font-size:11px; color:var(--text-secondary); line-height:1.5;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab: Rank Observations & Local History ─────────────────────── -->
+    <div class="tab-content" id="tab-rankhistory">
+      <div class="card">
+        <div class="card-title">📌 Local Rank Observations &amp; Tracking</div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;">
+          Log timestamped rank observations for your ASINs against target search terms. Stored securely in your local browser storage.
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="historyAsinInput" class="form-input" placeholder="ASIN (e.g. B08N5WRWNW)" style="flex:1;">
+            <input type="text" id="historyKeywordInput" class="form-input" placeholder="Target Keyword (e.g. running shoes)" style="flex:2;">
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="number" id="historyRankInput" class="form-input" placeholder="Observed Rank (e.g. 4)" min="1" max="1000" style="flex:1;">
+            <select id="historyTypeSelect" class="form-select" style="flex:1;">
+              <option value="Organic">Organic Placement</option>
+              <option value="Sponsored">Sponsored Ad (PPC)</option>
+            </select>
+            <button id="saveRankObservationBtn" class="btn btn-primary" style="white-space:nowrap;">📌 Save Observation</button>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-bottom:12px;">
+          <button id="exportHistoryCsvBtn" class="btn btn-secondary" style="font-size:11px;">📥 Export History (CSV)</button>
+          <button id="clearHistoryBtn" class="btn btn-secondary" style="font-size:11px; color:#ff6b6b;">🗑️ Clear Records</button>
+        </div>
+
+        <div id="rankHistoryContainer">
+          <div class="history-list" id="rankHistoryList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab: Customer Voice & Review Sentiment ────────────────────── -->
+    <div class="tab-content" id="tab-reviews">
+
+      <div class="card">
+        <div class="card-title">🗣️ Voice of Customer (Review Insights)</div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">
+          Extracted real buyer experiences. Use these to find product flaws to fix and highlight in your copywriting!
+        </p>
+
+        <div class="sentiment-container">
+          <!-- Positive Highlights -->
+          <div class="sentiment-box positive">
+            <div class="sentiment-title">💚 What Buyers Love (Features to Highlight)</div>
+            <div id="positiveReviewList">
+              <div class="sentiment-item">Analyzing positive reviews…</div>
+            </div>
+          </div>
+
+          <!-- Negative Pain Points -->
+          <div class="sentiment-box negative">
+            <div class="sentiment-title">💔 Pain Points &amp; Complaints (Flaws to Fix)</div>
+            <div id="negativeReviewList">
+              <div class="sentiment-item">Analyzing critical reviews…</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💡 Amazon Seller Strategy Tip</div>
+        <div style="font-size:11px; color:var(--text-secondary); line-height:1.6;">
+          • Address your competitor's top complaints in your first two bullet points.<br>
+          • For example, if competitors complain about "difficult lids" or "flimsy hinges", start Bullet #1 with <code>[UPGRADED LEAK-PROOF LID DESIGN]</code> to win buyer conversions.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: SEO Score ─────────────────────────────────────────────── -->
+    <div class="tab-content" id="tab-seo">
+
+      <!-- Title Analysis -->
+      <div class="card">
+        <div class="card-title">📝 Title Analysis</div>
+        <div class="title-analysis">
+          <div class="title-mobile-preview" id="titleMobileLabel">📱 Mobile (70 chars)</div>
+          <div class="title-text" id="titleMobileText">—</div>
+          <div class="char-count">
+            Full length: <span id="titleCharCount" class="ok">0</span> / 200 chars
+          </div>
+        </div>
+        <div id="titleFull" class="info-value" style="font-size:11px;color:var(--text-secondary);line-height:1.5;margin-top:6px;"></div>
+      </div>
+
+      <!-- Bullet Points Summary -->
+      <div class="card">
+        <div class="card-title">🔹 Bullet Points (<span id="bulletCount">0</span>/5)</div>
+        <div id="bulletList"></div>
+      </div>
+
+      <!-- Issues -->
+      <div class="card" id="issuesCard" style="display:none">
+        <div class="card-title">🚨 Issues Found</div>
+        <div class="issue-list" id="issueList"></div>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="card" id="suggestionsCard" style="display:none">
+        <div class="card-title">💡 Optimization Tips</div>
+        <div class="issue-list" id="suggestionList"></div>
+      </div>
+
+      <!-- Quality Checklist -->
+      <div class="card">
+        <div class="card-title">✅ Quality Checklist (<span id="checkPassed">0</span>/15)</div>
+        <div class="checklist" id="checklistContainer"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Keywords ──────────────────────────────────────────────── -->
+    <div class="tab-content" id="tab-keywords">
+
+      <div class="card">
+        <div class="card-title">🔑 Top Listing Keywords</div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">
+          Extracted from title, bullets &amp; description. Click any keyword to query Amazon Live Search API.
+        </p>
+        <div class="keyword-grid" id="keywordList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💬 Top 2-Word Phrases</div>
+        <div class="keyword-grid" id="phraseList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Meta Keywords (from page head)</div>
+        <div id="metaKeywordsValue" style="font-size:11px;color:var(--text-secondary);word-break:break-word;line-height:1.6;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 Meta Description</div>
+        <div id="metaDescriptionValue" style="font-size:11px;color:var(--text-secondary);word-break:break-word;line-height:1.6;"></div>
+      </div>
+
+      <!-- Google Trends & Demand Velocity Connector -->
+      <div class="card" style="border-left:3px solid #4285F4;">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>🌐 Google Trends Authentic CSV Importer</span>
+          <button id="importTrendsBtn" class="icon-btn" style="font-size:10px; padding:2px 8px; background:rgba(66,133,244,0.2); border-color:#4285F4; color:#4285F4;">📥 Parse CSV</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">
+          Ingest real official exports from <a href="https://trends.google.com/trends/explore" target="_blank" style="color:#4285F4;">trends.google.com</a>. Calculates demand velocity, inflection points, and trend direction without synthetic data.
+        </p>
+        <textarea id="trendsCsvInput" class="calc-input" style="width:100%; height:60px; font-size:10px; font-family:monospace;" placeholder="Paste Google Trends Multi-Timeline CSV here, or click to load sample header..."></textarea>
+        <div id="trendsStatusText" style="font-size:11px; color:var(--text-muted); margin-top:4px;">Ready to parse official Google Trends timeline exports.</div>
+        <div id="trendsResultsContainer" style="margin-top:6px; font-size:11px;"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Live Amazon Search API ────────────────────────────────── -->
+    <div class="tab-content" id="tab-api-suggest">
+
+      <div class="card">
+        <div class="card-title">⚡ Live Amazon Suggestion API (Free &amp; Official)</div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">
+          Direct real-time search suggestions as buyers type on Amazon. No API key required.
+        </p>
+
+        <div class="search-bar-row">
+          <input type="text" id="apiSearchInput" class="search-input" placeholder="Enter seed keyword (e.g., wireless earbuds)...">
+          <button id="apiSearchBtn" class="search-btn">Search API</button>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:11px; color:var(--text-muted);" id="apiResultsCount">Suggestions: 0</span>
+          <button class="copy-mini-btn" id="copyAllSuggestionsBtn" style="display:none;">📋 Copy All</button>
+        </div>
+
+        <div class="keyword-grid" id="apiSuggestionsList">
+          <span class="empty-state" style="padding:10px 0;">Type a keyword above or click any keyword in the Keywords tab to fetch live search queries.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: APIs & SP-API Diagnostics ────────────────────────────── -->
+    <div class="tab-content" id="tab-diagnostics">
+      <div class="card">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>🛡️ Amazon &amp; AI Integration Diagnostics</span>
+          <button id="refreshDiagBtn" class="icon-btn" style="font-size:10px; padding:2px 8px;">🔄 Check Now</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">
+          Live operational status of backend proxy, Amazon Creators API, Selling Partner API (SP-API), and Gemini AI engines.
+        </p>
+
+        <!-- Deterministic Offline Engine (Always Operational) -->
+        <div class="diag-card" style="border-left: 3px solid #00c853;">
+          <div class="diag-header">
+            <span class="diag-name">⚡ Deterministic Local SEO &amp; FBA Engine</span>
+            <span class="badge badge-green">100% OPERATIONAL</span>
+          </div>
+          <div class="diag-details">
+            Zero external key or paid service needed. Page DOM parsing, title length scoring, 249-byte limit validation, bullet auditing, keyword density, and GST/FBA calculator run locally and privately inside your browser.
+          </div>
+        </div>
+
+        <!-- Backend Proxy Server -->
+        <div class="diag-card" id="diagBackendCard">
+          <div class="diag-header">
+            <span class="diag-name">🌐 Backend Proxy Server (Local/Self-Hosted)</span>
+            <span id="diagBackendBadge" class="badge badge-blue">Checking...</span>
+          </div>
+          <div class="diag-details" id="diagBackendDetails">
+            Verifying connection to <span id="diagBackendUrlText">http://localhost:3000</span>...
+          </div>
+        </div>
+
+        <!-- Amazon Creators API (Affiliates) -->
+        <div class="diag-card" id="diagCreatorsCard">
+          <div class="diag-header">
+            <span class="diag-name">🛒 Amazon Creators API (India)</span>
+            <span id="diagCreatorsBadge" class="badge">Checking...</span>
+          </div>
+          <div class="diag-details" id="diagCreatorsDetails">
+            Checking Associates credentials for marketplace <span class="brand-highlight">www.amazon.in</span>...
+          </div>
+          <div style="margin-top:6px;">
+            <a href="https://affiliate-program.amazon.in/creatorsapi/docs/en-us/introduction" target="_blank" class="diag-link">📖 Amazon India Creators API Official Documentation ↗</a>
+          </div>
+        </div>
+
+        <!-- Amazon Selling Partner API (SP-API) -->
+        <div class="diag-card" id="diagSpApiCard">
+          <div class="diag-header">
+            <span class="diag-name">🏢 Amazon Selling Partner API (SP-API)</span>
+            <span id="diagSpApiBadge" class="badge">Checking...</span>
+          </div>
+          <div class="diag-details" id="diagSpApiDetails">
+            Checking Seller Central developer app authorization for marketplace <span class="brand-highlight">Amazon India (A21TJRUUN4KGV)</span>...
+          </div>
+          <div style="margin-top:6px;">
+            <a href="https://developer-docs.amazon.com/sp-api/docs/onboarding-overview" target="_blank" class="diag-link">📖 Amazon SP-API Developer Onboarding Guide ↗</a>
+          </div>
+        </div>
+
+        <!-- Flipkart Seller API v3.0 -->
+        <div class="diag-card" id="diagFlipkartCard">
+          <div class="diag-header">
+            <span class="diag-name">🛍️ Flipkart Seller API v3.0</span>
+            <span id="diagFlipkartBadge" class="badge">Checking...</span>
+          </div>
+          <div class="diag-details" id="diagFlipkartDetails">
+            Checking Flipkart Developer credentials for listings and inventory on <span class="brand-highlight">flipkart.com</span>...
+          </div>
+          <div style="margin-top:6px;">
+            <a href="https://seller.flipkart.com/api-docs/" target="_blank" class="diag-link">📖 Flipkart Seller API Portal &amp; Documentation ↗</a>
+          </div>
+        </div>
+
+        <!-- Google APIs (Search Console, Ads, Merchant & Trends) -->
+        <div class="diag-card" id="diagGoogleCard">
+          <div class="diag-header">
+            <span class="diag-name">🌐 Google Search Console &amp; Ads APIs</span>
+            <span id="diagGoogleBadge" class="badge">Checking...</span>
+          </div>
+          <div class="diag-details" id="diagGoogleDetails">
+            Checking GSC, Google Ads Developer Token, Merchant Center, and Trends CSV connectors...
+          </div>
+          <div style="margin-top:6px;">
+            <a href="https://developers.google.com/webmaster-tools" target="_blank" class="diag-link">📖 Google Search Console &amp; Ads Developer Docs ↗</a>
+          </div>
+        </div>
+
+        <!-- Gemini AI Engine -->
+        <div class="diag-card" id="diagAiCard">
+          <div class="diag-header">
+            <span class="diag-name">🤖 AI Listing Optimization Engine</span>
+            <span id="diagAiBadge" class="badge badge-green">Ready</span>
+          </div>
+          <div class="diag-details" id="diagAiDetails">
+            Active: Gemini 3.8 Flash &amp; 3.5 Flash models with offline deterministic fallback.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Tab: Product Details ───────────────────────────────────────── -->
+    <div class="tab-content" id="tab-product">
+
+      <!-- BSR -->
+      <div class="card">
+        <div class="card-title">🏆 Best Sellers Rank</div>
+        <div id="bsrList"></div>
+      </div>
+
+      <!-- Description -->
+      <div class="card">
+        <div class="card-title">📖 Product Description</div>
+        <div id="descriptionValue" style="font-size:12px;color:var(--text-secondary);line-height:1.6;max-height:200px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- Tech Specs -->
+      <div class="card">
+        <div class="card-title">🔧 Technical Specifications</div>
+        <div id="specsContainer"></div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Images ────────────────────────────────────────────────── -->
+    <div class="tab-content" id="tab-images">
+
+      <div class="card">
+        <div class="card-title">🖼 Product Images (<span id="imageCount">0</span> detected)</div>
+        <div class="image-gallery" id="imageGallery"></div>
+        <div id="noImagesMsg" class="empty-state" style="display:none;">
+          No images detected on this page.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Export ────────────────────────────────────────────────── -->
+    <div class="tab-content" id="tab-export">
+
+      <div class="card">
+        <div class="card-title">📤 Export E-Commerce &amp; SEO Data</div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.6;">
+          Export all extracted data including SEO score, FBA profit, estimated sales, keywords, product details, images and more.
+        </p>
+
+        <div class="btn-row" style="flex-direction:column;">
+          <button class="btn btn-primary" id="exportJsonBtn">📄 Copy as JSON</button>
+          <button class="btn btn-secondary" id="exportCsvBtn">📊 Copy as CSV (Spreadsheet / Flat File)</button>
+          <button class="btn btn-secondary" id="downloadCsvBtn">📥 Download CSV Spreadsheet</button>
+          <button class="btn btn-secondary" id="exportTextBtn">📋 Copy as Complete Text Report</button>
+          <button class="btn btn-secondary" id="downloadJsonBtn">⬇️ Download JSON File</button>
+        </div>
+      </div>
+
+      <!-- Data Preview -->
+      <div class="card">
+        <div class="card-title">👁 Data Preview</div>
+        <pre id="jsonPreview" style="
+          font-size: 10px;
+          font-family: var(--font-mono);
+          color: var(--text-secondary);
+          background: var(--bg-secondary);
+          padding: 10px;
+          border-radius: 6px;
+          overflow-x: auto;
+          max-height: 200px;
+          overflow-y: auto;
+          white-space: pre-wrap;
+          word-break: break-all;
+        "></pre>
+      </div>
+
+    </div>
+
+    <!-- ── Tab: Settings / APIs ──────────────────────────────────────── -->
+    <div class="tab-content" id="tab-settings">
+
+      <div class="card">
+        <div class="card-title">⚙️ API Configuration &amp; Public Mode</div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">
+          Configure backend proxy or direct keys. Protected backend proxy mode ensures public users never see your private keys.
+        </p>
+
+        <div class="form-group">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <label class="form-label" style="margin-bottom:0;">AI Optimizer Connection Mode</label>
+            <span id="aiEngineStatus" class="badge badge-blue">Proxy Server Ready</span>
+          </div>
+          <select id="apiModeSelect" class="form-select">
+            <option value="proxy">🌐 Public Proxy Server (Active &amp; Recommended)</option>
+            <option value="direct">🔑 Direct Gemini API Key (BYOK)</option>
+            <option value="offline">⚡ Offline Smart Engine (Zero Key Needed)</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="proxyServerGroup">
+          <label class="form-label">
+            Backend Proxy Server URL <span>(Protects your private key)</span>
+          </label>
+          <input type="text" id="proxyUrlInput" class="form-input" placeholder="http://localhost:3000" value="http://localhost:3000">
+        </div>
+
+        <div class="form-group" id="directApiKeyGroup" style="display:none;">
+          <label class="form-label">
+            Google Gemini API Key <span>(Personal / Direct BYOK)</span>
+          </label>
+          <input type="password" id="geminiApiKeyInput" class="form-input" placeholder="AIzaSy... / AQ...">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Amazon Search API Marketplace</label>
+          <select id="apiMarketplaceSelect" class="form-select">
+            <option value="IN" selected>Amazon India (amazon.in)</option>
+            <option value="US">Amazon US (amazon.com)</option>
+            <option value="UK">Amazon UK (amazon.co.uk)</option>
+            <option value="CA">Amazon Canada (amazon.ca)</option>
+            <option value="DE">Amazon Germany (amazon.de)</option>
+            <option value="FR">Amazon France (amazon.fr)</option>
+            <option value="IT">Amazon Italy (amazon.it)</option>
+            <option value="ES">Amazon Spain (amazon.es)</option>
+            <option value="JP">Amazon Japan (amazon.co.jp)</option>
+            <option value="AU">Amazon Australia (amazon.com.au)</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button id="saveSettingsBtn" class="btn btn-primary">💾 Save API Settings</button>
+          <button id="testApiBtn" class="btn btn-secondary">⚡ Test Live API</button>
+        </div>
+
+        <div id="settingsSaveStatus" style="font-size:11px; margin-top:8px; text-align:center;"></div>
+      </div>
+
+    </div>
+
+  </div><!-- /mainUI -->
+
+  <!-- ── Footer ──────────────────────────────────────────────────────────── -->
+  <div class="footer" id="mainFooter" style="display:none">
+    <div style="display:flex; flex-direction:column; gap:2px;">
+      <span class="footer-text" id="footerTimestamp">Analyzed just now</span>
+      <span class="hardcore-footer-brand">
+        ⚡ OmniRank • <span class="brand-highlight">Engineered by tarikislam.in</span>
+      </span>
+    </div>
+    <div class="footer-actions">
+      <button class="icon-btn" id="refreshBtn" title="Re-analyze page">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="scripts/popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "amazon-seo-backend-proxy",
+  "version": "1.0.0",
+  "description": "Secure API proxy with rate limiting for AmazonSEO Pro Chrome Extension",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["amazon-seo", "gemini-proxy", "chrome-extension"],
+  "author": "AmazonSEO Pro",
+  "license": "MIT"
+}

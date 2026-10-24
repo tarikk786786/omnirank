@@ -1,0 +1,19 @@
+# Credentials (NEVER commit live secrets)
+.env
+.env.local
+backend/.env
+*.env
+!.env.example
+!backend/.env.example
+
+# Dependencies
+node_modules/
+
+# Built ZIP artifacts
+*.zip
+
+# Logs and OS metadata
+*.log
+Thumbs.db
+Desktop.ini
+.DS_Store
